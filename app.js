@@ -6,15 +6,22 @@ const app_elemet = createElement(the_div);
 function onclick(){
   gcount+=100
 }
-function app(count){
+var offset
+function app(count,depth,id){
   //return 'hello world '+count
-  var ans=m('div', { id: 'app',onclick }, ['World'+count])
+  var children=['Hello World '+offset +' '+(count+offset)]
+  offset+=1
+  
+  if (depth>0)
+    children=children.concat([1,2].map(x=>app(count,depth-1,x)))
+  var ans=m('div', { id: 'app'+id,onclick }, children)
   return ans
 }
 document.body.appendChild(app_elemet);
 // Patch content
 var gcount=0
 setInterval(() => {
-  patch(app_elemet, app(gcount));  
+  offset=0
+  patch(app_elemet, app(gcount,8,1));  
   gcount++
 }, 100);
