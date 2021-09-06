@@ -1,8 +1,8 @@
 import { m, createElement, patch } from 'million';
 
 // Initialize app
-var the_div=m('div', { id: 'app' }, ['Hello World'])
-const app_elemet = createElement(the_div);
+var oldvnode=m('div', { id: 'app' }, ['Hello World'])
+const app_elemet = createElement(oldvnode);
 function onclick(){
   gcount+=100
 }
@@ -22,6 +22,8 @@ document.body.appendChild(app_elemet);
 var gcount=0
 setInterval(() => {
   offset=0
-  patch(app_elemet, app(gcount,8,1));  
+  var newvnode=app(gcount,8,1)
+  patch(app_elemet,newvnode,oldvnode);
+  oldvnode=newvnode  
   gcount++
 }, 100);
